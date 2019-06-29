@@ -1,6 +1,7 @@
 #!/usr/bin/env perl6
 
 my $input;
+my $temp;
 
 say 'Challenge 1:';
 
@@ -17,5 +18,38 @@ say 'Challenge 2:';
 # (https://gist.github.com/jacoby/764bb4e8a5d3a819b5fbfa497fcb3454)
 
 $input = 4242;
-say $input.base(35);
-say $input.base(35).parse-base(35);
+
+# Using built-in functionality
+# $input.base(35);
+# $input.base(35).parse-base(35);
+
+sub to-base35(Int $input --> Str) {
+  $temp = $input;
+  my $power = 0;
+  $power++ while ($temp ÷= 35) ≥ 1;
+  
+  $temp = $input;
+  my $base35 = '';
+  while $power >= 0 {
+    my $val = $temp div (35 ** $power);
+    my $char = $val < 10 ?? $val.Str !! ($val + 55).chr;
+    $base35 ~= $char;
+    $temp -= $val × (35 ** $power);
+    $power--;
+  }
+  return $base35;
+}
+
+sub from-base35(Str $input --> Int) {
+  my $power = 0;
+  my $base10 = 0;
+  for $input.uc.comb.reverse {
+    if $_ ~~ '0'..'9' { $base10 += (.Int     ) × (35 ** $power) }
+    if $_ ~~ 'A'..'Y' { $base10 += (.ord - 55) × (35 ** $power) }
+    $power++;
+  }
+  return $base10;
+}
+
+say to-base35($input);
+say from-base35(to-base35($input));
