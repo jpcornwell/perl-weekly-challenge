@@ -10,6 +10,9 @@ say 'Challenge 1:';
 $input = '0042';
 say ~+$input;
 
+
+
+
 say 'Challenge 2:';
 
 # Write a script that can convert integers to and from a base35 representation,
@@ -51,5 +54,38 @@ sub from-base35(Str $input --> Int) {
   return $base10;
 }
 
-say to-base35($input);
-say from-base35(to-base35($input));
+
+
+
+# Solutions after seeing some others on the internet
+
+my @chars = (0..9, 'A'..'Y').flat;
+my %lookup = @chars.map: { $_ => $++ };
+
+sub to-base35-A(Int $input is copy --> Str) {
+  my @results;
+  while ($input) {
+    @results.push($input % 35);
+    $input div= 35;
+  }
+  return @results.reverse.map( { @chars[$_] } ).join;
+
+  # Could also do this instead
+  return $input.polymod(35 xx ∞).reverse.map( { @chars[$_] } ).join;
+}
+
+sub from-base35-A(Str $input --> Int) {
+  my $power = 0;
+  my $base10 = 0;
+  for $input.uc.comb.reverse -> $char {
+    $base10 += %lookup{$char} × (35 ** $power++);
+  }
+  return $base10;
+
+  # Could also do this instead
+  return $input.uc.comb.reverse.map( { %lookup{$_} × (35 ** $++) } ).sum;
+}
+
+say to-base35-A($input);
+say from-base35-A(to-base35($input));
+
