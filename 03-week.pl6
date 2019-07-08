@@ -11,13 +11,13 @@ my @hamming-numbers = lazy gather {
   my @incoming-vals;
   loop {
     take $last-val;
-    @incoming-vals.append: $last-val X* (2, 3, 5);
+    @incoming-vals.append: $last-val «×« (2, 3, 5);
     @incoming-vals .= sort;
     shift @incoming-vals until @incoming-vals.head != $last-val;
     $last-val = @incoming-vals.shift;
   }
 };
 
-for 1..50 -> $index {
-  say "$index \t @hamming-numbers[$index - 1]";
+for 1..50 -> $i {
+  say "$i \t @hamming-numbers[$i - 1]";
 }
