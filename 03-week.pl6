@@ -44,7 +44,7 @@ sub pascal-number(Int $row, Int $col where $col <= $row) {
     return $row! / (($row-$col)! * $col!);
 }
 
-my $row-count = 9;
+my $row-count = 15;
 
 say 'Plain triangle:';
 print-plain($row-count);
@@ -102,6 +102,6 @@ sub print-pretty(Int $row-count) {
     }
 
     for @triangle.kv -> $index, @row {
-        say ' ' x 2 * (@triangle.elems - $index) ~ @row.join('   ');
+        say ' ' x 2 * (@triangle.elems - $index) ~ @row>>.fmt('%4d').join(' ');
     }
 }
