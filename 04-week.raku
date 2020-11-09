@@ -20,20 +20,20 @@ sub find-𝜋(:th-digit($n)) {
   for ^𝑛 {
     # Multiply by 10: Multiply each entry of A by 10.
     𝐴 .= map: * × 10;
-    for 𝐴.elems ^... 2 -> \i {
+    for 𝐴.elems ^... 2 -> \𝑖 {
       # TODO: Is there a way to remove the my declaration here?
       # Declaring these at the top caused problems because I couldn't reassign the values.
-      my \𝑞 = 𝐴[i] div (2 × i - 1) × (i - 1);
-      my \𝑟 = 𝐴[i] % (2 × i - 1);
+      my \𝑞 = 𝐴[𝑖] div (2 × 𝑖 - 1) × (𝑖 - 1);
+      my \𝑟 = 𝐴[𝑖] % (2 × 𝑖- 1);
 
-      𝐴[i] = 𝑟;
+      𝐴[𝑖] = 𝑟;
 
-      if i == 2 {
-        $predigit = (𝑞 + 𝐴[i - 1]) div 10;
-        𝐴[i - 1] = (𝑞 + 𝐴[i - 1]) % 10;
+      if 𝑖 == 2 {
+        $predigit = (𝑞 + 𝐴[𝑖 - 1]) div 10;
+        𝐴[𝑖 - 1] = (𝑞 + 𝐴[𝑖 - 1]) % 10;
         @digits.push: $predigit;
       } else {
-        𝐴[i - 1] += 𝑞;
+        𝐴[𝑖 - 1] += 𝑞;
       }
     }
   }
