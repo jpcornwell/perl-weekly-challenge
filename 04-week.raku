@@ -1,5 +1,10 @@
 #!/usr/bin/env raku
 
+# This actually slows the program a lot. First just defining it slows it down,
+# and then actually using it versus (<math>).floor slows it further. Went from
+# .7 seconds to 1.9 seconds.
+sub circumfix:<⌊ ⌋>($x) { $x.floor }
+
 #| Uses 𝜋 spigot algorithm from Stanley Rabinowitz and Stan Wagon
 sub find-𝜋(:th-digit($n)) {
   # Math symbols
@@ -13,8 +18,7 @@ sub find-𝜋(:th-digit($n)) {
   my @digits;
 
   # Initialize: Let 𝐴 = (2,2,2,2,...,2) be an array of length ⌊10𝑛/3⌋.
-  # TODO: Create custom operator for floor
-  𝐴= [2 xx (10 × 𝑛 / 3).floor + 1];
+  𝐴= [2 xx ⌊10 × 𝑛 / 3⌋ + 1];
 
   # Repeat 𝑛 times:
   for ^𝑛 {
